@@ -4,7 +4,7 @@
 
 // need this for string functions
 #include <stdio.h>
-
+// include all heading files
 #include "pll.h"
 #include "simple_serial.h"
 #include "l3g4200d.h"
@@ -15,10 +15,11 @@
 #include "lidar_processing.h"
 #include "lcd_module.h"
 #include "music_module.h"
+// create univeral variables
+int sample_count = 0; // count how many time laser.c has been called 
+unsigned long filted_sample = 0; // final lidar value after filting process
 
-int sample_count = 0;
-unsigned long filted_sample = 0;
-
+// funtion to print out errors
 void printErrorCode(IIC_ERRORS error_code) {
   char buffer[128];  
   switch (error_code) {
@@ -73,15 +74,15 @@ void main(void) {
   // MagRaw read_magnet;
   
   IIC_ERRORS error_code = NO_ERROR;
+ 
+  char buffer[128]; // message buffer  
   
-  char buffer[128];  
+  unsigned long singleSample; // lidar value
   
-  unsigned long singleSample;
-  
-  unsigned long baseSample = 0;
-  unsigned long filtedSample = 0;
-  int count = 0;
-  int start_signal = 1;
+  unsigned long baseSample = 0; // base distance of each booth
+  unsigned long filtedSample = 0; // lidar value after filting process
+  int count = 0; 
+  int start_signal = 1; // indicate the initial process - scaning for booths' distance
    
   //assert(error_code != NO_ERROR);
 
@@ -124,20 +125,22 @@ void main(void) {
 	}
   }
 
-  init_music();
-  laserInit();
+  init_music(); // init the music module for the hardware
+  laserInit(); // init the laser in the lidar
   
   #else
   
   #endif
 
-  Init_TC4();
+  Init_TC4(); // init compare port 4
   
 	EnableInterrupts;
   //COPCTL = 7;
   _DISABLE_COP();
   
+  // booths' distance scanning process at the begining of the start 
   while (start_signal == 1){
+	// if laser start signal is true
   	if (start_laser == 1){
   		GetLatestLaserSample(&singleSample);
   		sample_filter (&iterator_counter, &singleSample, &baseSample, &filtedSample, &count, &start_signal, &start_laser, &note, &play_signal, &booth_distance[0], &boothNum);	
@@ -186,6 +189,8 @@ void main(void) {
     //sprintf(buffer, "%lu\n", singleSample);
     // output the data to serial
     //sample_filter (&singleSample, &baseSample, &filtedSample, &count, &start_signal, &boothNum, &note, &play_signal);
+    
+    // if laser start signal is true, start lidar scaning process
     if (start_laser == 1){
     	sample_filter (&iterator_counter, &singleSample, &baseSample, &filtedSample, &count, &start_signal, &start_laser, &note, &play_signal, &booth_distance[0], &boothNum);	
     }
