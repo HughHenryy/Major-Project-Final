@@ -9,7 +9,7 @@ void PWMinitialise(void);
 // note: this requires verification and calibration 
 void setServoPose(int azimuth, int elevation);
 
-
+// init comparation for channel 4
 void Init_TC4 (void);
 
 // interrupt used for cycling through the servo positions
