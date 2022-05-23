@@ -63,31 +63,36 @@ __interrupt void TC4_ISR(void) {
   TC4 = TCNT + 24000;   // interrupt delay depends on the prescaler
   TFLG1 |= TFLG1_C4F_MASK;
   
+  // if the delay flag is detected
   if (delay_flag == 0){
   	if (toggle == 0){
-  		iterator_counter = iterator_counter + 1000;
-  		boothNum = boothNum + 1;
-  		start_laser = 1;
+  		iterator_counter = iterator_counter + 1000; // make the next location of the servo, the servo will rotate to the right
+  		boothNum = boothNum + 1; // increase the booth number
+  		start_laser = 1; // set the start laser flag to 1
   	}
 	else{
-	    iterator_counter = iterator_counter - 1000;
-	    boothNum = boothNum - 1;
-	    start_laser = 1;	
+	    iterator_counter = iterator_counter - 1000; // make the next location of the servo, the servo will rotate to the left
+	    boothNum = boothNum - 1; // decrease the booth number
+	    start_laser = 1; // set the start laser flag to 1	
 	}
-	    	
+	
+	// if the servo reach the final booth
 	if (iterator_counter >= 2000) {
 	   	toggle = 1;
-	} else if (iterator_counter <= 0) {
+	} 
+	// if the servo reach the first booth
+	else if (iterator_counter <= 0) {
 		toggle = 0;
 	}
-		
+	// rotate the servo	
   	setServoPose(iterator_counter, iterator_counter);
-  	delay_flag = 1;
-  	delay_count = 0;	
+  	delay_flag = 1; // start the delay
+  	delay_count = 0; // count the number of delay	
   }
   else{
-  	delay_count = delay_count + 1;
-  	if (delay_count >= 8000){
+  	delay_count = delay_count + 1; // increase the delay count
+  	// delay for 8 s
+	if (delay_count >= 8000){
   		delay_flag = 0;
   	}
   }    
