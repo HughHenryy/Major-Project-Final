@@ -1,1 +1,73 @@
+################################## PROBLEM DEFINITION #############################################
 
+This project focuses on the futuristic technology for supermarkets. As supermarkets are a critical
+component of society introduction of new technology to improve accessibility, efficiency and the
+customer experience on a large scale has the potential to make a significant impact.
+Our team of six aims to the utilise the hardware, provided to us by the university of Sydney, to
+improve the functionality of the self checkout booths at a supermarket. Currently, in
+supermarkets, self checkout booths require an employee to direct flow of traffic. During busy
+times, the queue to enter the self checkout area can become lengthy, in addition to this there can
+be poor visibility at the front of the line to see which self checkout booths are occupied or vacant.
+
+Our solution aims to increase the efficiency of foot-traffic at the self checkout booth by the
+implementation of a automated instruction system to the customers. This is done using the Lidar
+sensor to check vacancy of an individual booth, motors, gyroscope and magnetic field to gather
+information on which booth is being checked. Further, the use of the LCD screen and speaker to
+relay information to the customer at the front of the line as to which booth is free along with a
+tune to grab their attention when a booth becomes available.
+This project is broken into a multitude of different modules which are documented below. In
+order to work as a team each member is allocated a selection of modules, documenting it as they
+progress, to allow for easy integration and understanding of each others work.
+
+################################## MODULES #############################################
+Lidar Detection Module:
+
+The final aim of this module is to be able to decide if a booth is occupied or vacant. The first
+stage of this module is to detect an object using the lidar, whilst stationary. The presence of an
+object is determined by the distance of the detection. This is decided by an initial reading of the
+layout of booths when they are known to be all vacant. In order to test and eliminate noise for
+these readings, testing and averaging multiple measurements and known/measured distances was
+conducted.
+The second component of this module is to incorporate object detection whilst the lidar is
+moving. This has a sub-module which controls the motors of the system to rotate the lidar, along
+with integration with the next module to keep track of the orientation, and hence update the
+correct booth’s occupancy status. Peter is responsible for this module.
+
+Orientation Module:
+
+The final aim for this module is to provide an accurate and live position measurement for the
+direction the lidar is facing. This can be done in a basic manner using the values we give to the
+motors. However, in the interest of accuracy and ability to measure the orientation, if the motor
+values aren’t accurate. Utilisation of the Gyroscope to firstly read data and correct for bias, along
+with provide real time measurements for orientation. The primary role of this module is to be
+responsible for providing information to all other dependant modules on what booth is currently
+being pointed to. Hugh and Lincoln is responsible for this module.
+
+Music Alerting Module:
+
+The final aim for this module is to create a tone when a new booth goes from being occupied to
+vacant. This serves to alert the customer at the front of the line that they can move to a vacant
+booth. This module should work in conjunction and in a similar fashion to the LCD Screen
+module, this is it’s primary function to be a user information module. Jimmy is responsible for
+this module.
+
+LCD Screen Module:
+
+The final aim for this module is to display the number of free booths on the LCD screen, this
+depends on the measurement of the gyro and lidar sensors as to which booth is being pointed to,
+this will be sourced from the output of the orientation module. The input of this module is an
+integer and the output displays that number booth and that it is free. This LCD display is
+indicative of the proof of concept design for a small screen to direct the customer at the front of
+the line as to where to go if a booth is free. Orgil is responsible for this module.
+
+
+PC Display Module:
+
+The final aim for the PC display module is to convey the occupancy status information externally,
+outside of the board to a PC. To be able to display on a larger monitor screen. This would
+increase the functionality of information to be received by the customers, possibly those who are
+further back in the line waiting, giving them an estimate of the turnover of booths and occupancy
+status. The data given to the external PC could also be analysed to perform estimated wait times
+for customers and could become quite extensive. The implementation of this module would be an
+add on to basic functionality, and hence the completion of the base modules are prioritised.
+Linxi is responsible for this module.
